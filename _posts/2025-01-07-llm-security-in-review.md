@@ -3,6 +3,7 @@ title: "LLM security in 2025: confusable deputies, indirect injection, and contr
 date: 2025-01-07
 layout: post
 ---
+
 In 2025, LLM capabilities advanced quickly. “Reasoning” models (starting with OpenAI’s o1/o3) helped make agentic workflows meaningfully more useful, and security started to look less like content moderation and more like systems security for a component that **reads untrusted text, reasons over it, and can take action**.
 
 So, looking back on 2025: what did we learn about LLM security?
