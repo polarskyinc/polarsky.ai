@@ -42,7 +42,7 @@ body.page {
 }
 
 body.page .shell {
-  max-width: 1120px;
+  max-width: 1200px;
 }
 
 .brand {
@@ -138,14 +138,13 @@ p {
 
 .post-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: minmax(0, 1fr) 260px;
   gap: 48px;
   align-items: start;
 }
 
 .post {
   width: 100%;
-  max-width: 780px;
 }
 
 .post h1 {
@@ -160,9 +159,11 @@ p {
   margin-bottom: 24px;
 }
 
-.post-meta__divider {
-  margin: 0 8px;
-  color: rgba(211, 222, 255, 0.5);
+.post-reading-time {
+  margin: 0 0 28px;
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .post-toc {
@@ -204,6 +205,11 @@ p {
 .post-toc__item--child {
   padding-left: 14px;
   font-size: 0.9rem;
+}
+
+.post-toc__item--subchild {
+  padding-left: 26px;
+  font-size: 0.85rem;
 }
 
 .post h2,

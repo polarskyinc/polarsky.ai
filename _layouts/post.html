@@ -15,11 +15,8 @@
       <article class="post" id="post-content">
         <header>
           <h1>{{ page.title }}</h1>
-          <p class="post-meta">
-            {{ page.date | date: "%B %d, %Y" }}
-            <span class="post-meta__divider">•</span>
-            {{ reading_time }} min read
-          </p>
+          <p class="post-meta">{{ page.date | date: "%B %d, %Y" }}</p>
+          <h2 class="post-reading-time">Estimated reading time: {{ reading_time }} min</h2>
         </header>
         {{ content }}
       </article>
@@ -33,7 +30,7 @@
     (() => {
       const toc = document.querySelector(".post-toc");
       const tocList = document.querySelector(".post-toc__list");
-      const headings = document.querySelectorAll(".post h2, .post h3");
+      const headings = document.querySelectorAll(".post h2, .post h3, .post h4");
 
       if (!toc || !tocList || headings.length === 0) {
         if (toc) {
@@ -52,6 +49,9 @@
       const used = new Map();
 
       headings.forEach((heading) => {
+        if (heading.classList.contains("post-reading-time")) {
+          return;
+        }
         if (!heading.id) {
           const base = slugify(heading.textContent);
           const count = used.get(base) || 0;
@@ -61,10 +61,13 @@
         }
 
         const item = document.createElement("li");
-        item.className =
-          heading.tagName === "H3"
-            ? "post-toc__item post-toc__item--child"
-            : "post-toc__item";
+        item.className = "post-toc__item";
+        if (heading.tagName === "H3") {
+          item.className += " post-toc__item--child";
+        }
+        if (heading.tagName === "H4") {
+          item.className += " post-toc__item--subchild";
+        }
 
         const link = document.createElement("a");
         link.href = `#${heading.id}`;
