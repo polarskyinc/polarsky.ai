@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LLM security in 2025: confusable deputies, indirect injection, and controls that reduce blast radius | Polar Sky</title>
+  <link rel="stylesheet" href="/pr-3/assets/site.css">
+</head>
+<body class="page">
+  <main class="shell">
+    <a class="brand" href="/pr-3/">Polar Sky</a>
+    <article class="post">
+      <header>
+        <h1>LLM security in 2025: confusable deputies, indirect injection, and controls that reduce blast radius</h1>
+        <p class="post-meta">January 07, 2025</p>
+      </header>
+      <div class="post-content">
+        <p>In 2025, “LLM security” started to look less like a content moderation problem and more like systems security for a component that <strong>reads untrusted text, reasons over it, and can take action</strong>.</p>
+
+<p>This post is a fact-focused synthesis for CISOs and security practitioners: what we learned in 2025, and how to plan defensible controls for 2026.</p>
+
+<hr />
+
+<h2 id="executive-summary">Executive summary</h2>
+
+<ul>
+  <li><strong>Deployment is outpacing mature security controls.</strong> Organizations can normalize insecure or unreliable AI behavior because “nothing catastrophic has happened yet,” even as assistants gain access to more data and more actions—so planning should assume material incidents are plausible, not hypothetical (see <a href="https://embracethered.com/blog/posts/2025/the-normalization-of-deviance-in-ai/">Embrace The Red</a>).</li>
+  <li><strong>Indirect prompt injection is the operational threat model</strong> for enterprise assistants: adversarial instructions arrive via content the model is asked to read (web pages, emails, files), not just via user prompts (see <a href="https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks">Microsoft MSRC</a>).</li>
+  <li><strong>Agentic browsing made “drive-by” failures plausible.</strong> The Comet prompt injection issue is a concrete illustration of untrusted web content being treated as instructions (see <a href="https://brave.com/blog/comet-prompt-injection/">Brave: Comet prompt injection</a>).</li>
+  <li><strong>2025 guidance converged on deterministic boundary controls.</strong> Isolation of untrusted content, gating high-impact actions, and downstream authorization checks are replacing “prompt-only” security arguments (see <a href="https://security.googleblog.com/2025/12/architecting-security-for-agentic.html">Chrome Security</a>).</li>
+</ul>
+
+<hr />
+
+<h2 id="big-problem-ai-security-is-normalizing-before-controls-are-mature">Big problem: AI security is normalizing before controls are mature</h2>
+
+<p>A recurring theme in 2025 writing was that organizations can drift into accepting insecure behavior because “nothing catastrophic has happened yet.” Johann Rehberger describes this dynamic for AI systems as a “normalization of deviance” failure mode (see <a href="https://embracethered.com/blog/posts/2025/the-normalization-of-deviance-in-ai/">Embrace The Red</a>).</p>
+
+<p>At the same time, deployments are getting more capable:</p>
+
+<ul>
+  <li>assistants ingest more untrusted input (web/email/docs/tickets)</li>
+  <li>retrieval-augmented generation (RAG) connects models to sensitive internal corpora</li>
+  <li>agents increasingly call tools that can change state</li>
+</ul>
+
+<p>That combination shifts impact from reputational harm (“chatbot said something wrong”) toward conventional security outcomes such as data exposure and unauthorized actions (especially when the system operates with user credentials).</p>
+
+<p>One concrete illustration is the Comet prompt injection issue described by Brave: webpage content was treated as instructions in a way that could drive unintended behavior and disclosure. Schulhoff discusses the same example in the podcast episode; Brave’s write-up is the better primary reference (see <a href="https://brave.com/blog/comet-prompt-injection/">Brave: Comet prompt injection</a>; <a href="https://www.lennysnewsletter.com/p/the-coming-ai-security-crisis?utm_source=post-email-title&amp;publication_id=10845&amp;post_id=181089452&amp;utm_campaign=email-post-title&amp;isFreemail=true&amp;r=2vtaj&amp;triedRedirect=true">Lenny’s Newsletter episode</a>).</p>
+
+<hr />
+
+<h2 id="the-ai-threat-model-confusable-deputy-semantic-input-and-untrusted-output">The AI threat model: “confusable deputy,” semantic input, and untrusted output</h2>
+
+<p>Classical cybersecurity is built around deterministic systems: you can trace a failure to code paths, configuration, or protocol behavior—and you can often remediate by patching. LLM applications break some of those assumptions:</p>
+
+<ul>
+  <li><strong>The attack surface is semantic.</strong> “Instructions” and “data” share the same medium (natural language), and adversarial instructions can be embedded in content the model is asked to process.</li>
+  <li><strong>You can’t assume you can enumerate and block all bad inputs.</strong> Indirect injection is specifically about instructions arriving via normal enterprise content flows (files, emails, web pages).</li>
+  <li><strong>You can’t treat model behavior as a security boundary.</strong> Outputs are probabilistic and can be steered; prompt “guardrails” are a layer, not a substitute for authorization checks and isolation boundaries (see <a href="https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection">UK NCSC</a>).</li>
+</ul>
+
+<p>The UK NCSC framing is useful for security decision-making: treat prompt injection less like SQL injection and more like exploiting an inherently “confusable deputy,” which pushes design toward impact reduction and boundary controls (see <a href="https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection">UK NCSC</a>).</p>
+
+<hr />
+
+<h2 id="whats-the-solution-build-controls-that-reduce-blast-radius-when-injection-succeeds">What’s the solution? Build controls that reduce blast radius when injection succeeds</h2>
+
+<p>The most defensible 2025 posture was not “we prevented injection,” but “when injection happens, it can’t silently exfiltrate data or perform high-impact actions.” In practice, that means emphasizing deterministic boundary controls over probabilistic behavior (see <a href="https://security.googleblog.com/2025/12/architecting-security-for-agentic.html">Chrome Security</a>).</p>
+
+<p>Practically, that means:</p>
+
+<ul>
+  <li><strong>Authorize access to data and tools outside the model.</strong> Don’t rely on the model to decide what it’s allowed to retrieve or do (“complete mediation” in downstream systems).</li>
+  <li><strong>Separate read paths from write paths.</strong> Treat retrieval as privileged; treat state-changing tool calls as higher risk; require approvals for high-impact actions.</li>
+  <li><strong>Treat model output as untrusted.</strong> Validate/sanitize before passing output into interpreters (HTML/JS/SQL/shell/config); prefer structured outputs and strict parsing.</li>
+  <li><strong>Instrument and respond like any other privileged system.</strong> Log retrieval decisions and tool invocations; build detection and incident response around anomalous export/tool use.</li>
+</ul>
+
+<hr />
+
+<h2 id="the-8-high-signal-2025-takeaways-for-cisos">The 8 high-signal 2025 takeaways for CISOs</h2>
+
+<p>These are the shifts that changed practical risk and controls in 2025; they are not meant to restate any single framework.</p>
+
+<h3 id="1-ai-that-reads-created-the-dominant-injection-path-indirect-injection">1) “AI that reads” created the dominant injection path (indirect injection)</h3>
+<p>If a workflow asks an LLM to summarize or analyze untrusted content (web/email/docs/tickets), it creates a practical injection path.</p>
+
+<h3 id="2-security-culture-is-a-control-normalization-of-deviance-became-a-practical-failure-mode">2) Security culture is a control: normalization of deviance became a practical failure mode</h3>
+<p>As AI systems are integrated into workflows, teams can normalize near-misses and “mostly works” behaviors, especially when harm is intermittent or hard to attribute (see <a href="https://embracethered.com/blog/posts/2025/the-normalization-of-deviance-in-ai/">Embrace The Red</a>).</p>
+
+<h3 id="3-prompt-injection-is-not-sql-injection-for-prompts--treat-the-model-as-a-confusable-deputy">3) Prompt injection is not “SQL injection for prompts” — treat the model as a confusable deputy</h3>
+<p>The UK NCSC’s “confusable deputy” framing is useful because it pushes designs toward impact reduction and boundary controls instead of betting on perfect prompt discipline (see <a href="https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection">UK NCSC</a>).</p>
+
+<h3 id="4-agentic-browsing-made-drive-by-data-exposure-plausible-in-real-workflows">4) Agentic browsing made “drive-by” data exposure plausible in real workflows</h3>
+<p>Once “reading the web” is connected to user state (accounts, sessions, autofill, internal data access), untrusted pages become an operational security boundary. The Comet prompt injection issue is a useful illustration (see <a href="https://brave.com/blog/comet-prompt-injection/">Brave: Comet prompt injection</a>; <a href="https://www.lennysnewsletter.com/p/the-coming-ai-security-crisis?utm_source=post-email-title&amp;publication_id=10845&amp;post_id=181089452&amp;utm_campaign=email-post-title&amp;isFreemail=true&amp;r=2vtaj&amp;triedRedirect=true">Lenny’s Newsletter episode</a>).</p>
+
+<h3 id="5-vendors-started-publishing-concrete-defense-in-depth-architectures-deterministic-boundaries">5) Vendors started publishing concrete defense-in-depth architectures (deterministic boundaries)</h3>
+<p>The direction of travel is consistent across published agent security architecture work: isolate untrusted content, gate high-impact actions, and rely on deterministic controls rather than probabilistic “the model will comply” assumptions (see <a href="https://security.googleblog.com/2025/12/architecting-security-for-agentic.html">Chrome Security</a>).</p>
+
+<h3 id="6-authorization-and-least-privilege-became-the-core-blast-radius-control-for-retrieval-and-tools">6) Authorization and least privilege became the core blast-radius control for retrieval and tools</h3>
+<p>This is the practical interpretation of “assume injection succeeds”: permissioning and complete mediation in downstream systems determine whether a manipulation becomes a minor policy violation or a material breach.</p>
+
+<h3 id="7-delegation-and-multi-agent-systems-create-second-order-escalation-paths">7) Delegation and multi-agent systems create second-order escalation paths</h3>
+<p>AppOmni’s ServiceNow Now Assist research is a good example of why “agent ecosystems” introduce new surfaces that resemble lateral movement and privilege escalation (see <a href="https://appomni.com/ao-labs/ai-agent-to-agent-discovery-prompt-injection/">AppOmni</a>; <a href="https://thehackernews.com/2025/11/servicenow-ai-agents-can-be-tricked.html">The Hacker News</a>).</p>
+
+<h3 id="8-ai-orchestrated-ops-signals-emerged-but-risk-should-be-calibrated-from-primary-sources">8) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources</h3>
+<p>There is credible reporting of agentic usage in cyber operations and also credible skepticism about what is actually new; this is a case where CISOs should read primary sources and update assumptions incrementally (see <a href="https://www.anthropic.com/news/disrupting-AI-espionage">Anthropic</a>; <a href="https://www.pcgamer.com/software/ai/anthropic-reports-the-first-80-90-percent-ai-orchestrated-cyber-espionage-campaign-but-cybersecurity-critics-are-sceptical/">PC Gamer</a>).</p>
+
+<p>Framework note: OWASP’s 2025 LLM risk taxonomy is useful as shared language for governance and coverage checks, but it should not substitute for an engineering story centered on boundaries, authorization, and blast radius (see <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01</a>).</p>
+
+<hr />
+
+<h2 id="what-changed-for-controls-in-2025-what-to-carry-into-2026-plans">What changed for controls in 2025 (what to carry into 2026 plans)</h2>
+
+<p>Most “best practice” controls for access control, least privilege, and logging were not invented in 2025. What changed in 2025 is that major examples and guidance started converging on a smaller set of priorities for agentic systems:</p>
+
+<ul>
+  <li><strong>Treat untrusted content as hostile by default (especially web browsing).</strong> The Comet prompt injection issue is a concrete reminder that content can be interpreted as instructions and drive unintended behavior or disclosure (see <a href="https://brave.com/blog/comet-prompt-injection/">Brave: Comet prompt injection</a>).</li>
+  <li><strong>Use deterministic boundaries for action-taking systems.</strong> Published approaches emphasize segregation/isolation of untrusted content, gating high-impact actions, and relying on enforced policy checks rather than “the model will comply” (see <a href="https://security.googleblog.com/2025/12/architecting-security-for-agentic.html">Chrome Security</a>).</li>
+  <li><strong>Model delegation and multi-agent behavior as an escalation surface.</strong> Agent-to-agent discovery and delegation can create second-order paths that look like lateral movement (see <a href="https://appomni.com/ao-labs/ai-agent-to-agent-discovery-prompt-injection/">AppOmni</a>; <a href="https://thehackernews.com/2025/11/servicenow-ai-agents-can-be-tricked.html">The Hacker News</a>).</li>
+  <li><strong>Keep OWASP as shared governance vocabulary, not the strategy.</strong> Its 2025 taxonomy is useful for coverage checks and communication, but the engineering story should still be boundaries, authorization, and blast radius.</li>
+</ul>
+
+<hr />
+
+<h2 id="closing-the-posture-that-held-up-in-2025">Closing: the posture that held up in 2025</h2>
+
+<p>The core lesson from 2025 was a shift from “prevent prompt injection” to “assume injection succeeds sometimes, and make failures non-catastrophic through boundaries, authorization, and isolation.”</p>
+
+<blockquote>
+  <p>“… any data that AI has access to, the user can make it leak it. Any actions that it can possibly take, the user can make it take. So make sure to have those things locked down.” — Sander Schulhoff (<a href="https://www.lennysnewsletter.com/p/the-coming-ai-security-crisis?utm_source=post-email-title&amp;publication_id=10845&amp;post_id=181089452&amp;utm_campaign=email-post-title&amp;isFreemail=true&amp;r=2vtaj&amp;triedRedirect=true">Lenny’s Newsletter episode</a>)</p>
+</blockquote>
+
+<hr />
+
+<h2 id="sources">Sources</h2>
+
+<ul>
+  <li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP GenAI Security Project, <code class="language-plaintext highlighter-rouge">LLM01:2025 Prompt Injection</code></a></li>
+  <li><a href="https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks">Microsoft MSRC: indirect prompt injection defenses (Jul 29, 2025)</a></li>
+  <li><a href="https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection">UK NCSC: “Prompt injection is not SQL injection” (Dec 2025)</a></li>
+  <li><a href="https://security.googleblog.com/2025/12/architecting-security-for-agentic.html">Google Online Security Blog: “Architecting Security for Agentic Capabilities in Chrome” (Dec 2025)</a></li>
+  <li><a href="https://appomni.com/ao-labs/ai-agent-to-agent-discovery-prompt-injection/">AppOmni AO Labs: agent-to-agent discovery / prompt injection (Nov 2025)</a></li>
+  <li><a href="https://www.anthropic.com/news/disrupting-AI-espionage">Anthropic: “Disrupting AI-espionage” (Nov 2025)</a></li>
+  <li><a href="https://embracethered.com/blog/posts/2025/the-normalization-of-deviance-in-ai/">Embrace The Red: “The Normalization of Deviance in AI” (2025)</a></li>
+  <li><a href="https://brave.com/blog/comet-prompt-injection/">Brave: “Comet prompt injection”</a></li>
+  <li><a href="https://www.lennysnewsletter.com/p/the-coming-ai-security-crisis?utm_source=post-email-title&amp;publication_id=10845&amp;post_id=181089452&amp;utm_campaign=email-post-title&amp;isFreemail=true&amp;r=2vtaj&amp;triedRedirect=true">Lenny’s Newsletter / podcast episode: “The coming AI security crisis”</a></li>
+  <li><a href="https://thehackernews.com/2025/11/servicenow-ai-agents-can-be-tricked.html">The Hacker News coverage (Nov 2025)</a></li>
+  <li><a href="https://www.pcgamer.com/software/ai/anthropic-reports-the-first-80-90-percent-ai-orchestrated-cyber-espionage-campaign-but-cybersecurity-critics-are-sceptical/">Example skeptical coverage (PC Gamer)</a></li>
+</ul>
+
+
+      </div>
+    </article>
+  </main>
+</body>
+</html>
