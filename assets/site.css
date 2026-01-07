@@ -147,6 +147,17 @@ p {
   width: 100%;
 }
 
+.post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 48px;
+  align-items: start;
+}
+
+.post {
+  width: 100%;
+}
+
 .post h1 {
   margin-bottom: 12px;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
