@@ -30,7 +30,7 @@
     (() => {
       const toc = document.querySelector(".post-toc");
       const tocList = document.querySelector(".post-toc__list");
-      const headings = document.querySelectorAll(".post h2, .post h3, .post h4");
+      const headings = document.querySelectorAll(".post h2");
 
       if (!toc || !tocList || headings.length === 0) {
         if (toc) {
@@ -62,12 +62,6 @@
 
         const item = document.createElement("li");
         item.className = "post-toc__item";
-        if (heading.tagName === "H3") {
-          item.className += " post-toc__item--child";
-        }
-        if (heading.tagName === "H4") {
-          item.className += " post-toc__item--subchild";
-        }
 
         const link = document.createElement("a");
         link.href = `#${heading.id}`;
