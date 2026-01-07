@@ -1,0 +1,193 @@
+# LLM security in 2025: confusable deputies, indirect injection, and controls that reduce blast radius
+
+## Big problem: AI Security
+
+Security commentary has applied “normalization of deviance” to AI: unsafe practices and implicit trust in LLM output can become routine as systems are integrated into workflows, especially when failures look intermittent or non-catastrophic.  
+- “The Normalization of Deviance in AI” (Embrace The Red): https://embracethered.com/blog/posts/2025/the-normalization-of-deviance-in-ai/  
+
+
+This is a big problem because deployments are getting to be more common and we're giving them more capabilities (e.g., agents). Before the risk impact was reputational risk ("Chatbot says bad things"), but now we're dealing with more consequences: data exfil, bad actions (robot driving you off the road).
+
+## the AI threat model
+
+Securing AI is different from classical cybersecurity which deal with deteriministc code, protocols, and systems.
+- classsical attacks focus on exploiting software/logic flaws that can be remediated (patched)
+- security rlelies on access control, least privilege, logging, isolation
+- threat modeling focuses on code 
+
+AI security is different; it's dealing with stochasticity.
+
+- attack surface is semantic. attackers craft inputs that "means" something to the model and causes unintended behavior
+- cannot "patch the brain"
+- outputs are inherently untrusted
+- agents blur boundaries
+- threat modeling is language as an input ector, how models represent intent, and how intent is mapped onto actions or data access
+
+If you make classical assumptions, you assume:
+
+1. you can enumerate and block bad inputs
+2. Correct behavior can be specified exhaustively
+
+(neither of which is true)
+
+comet browser example:
+
+And yeah, when it comes to grabbing profile information from accounts we recently saw, the Comet browser have an issue with this where somebody crafted a malicious chunk of text on a webpage.
+And when the AI navigated to that webpage on the internet, it got tricked into X-filling and leaking the main user's data and account data really quite bad. You're just browsing the internet with Comet and you get hacked.
+
+
+## what's the solution?
+
+- guardrails don't work, adverse space too large and they're trivially circumvented
+
+
+- bring clasiscal cybersecurity tools (sandboxing, least privilege, logs, containment) 
+- PLUS understanding model behavior, semantics, and probblistic outputs 
+- treat LLM behavior as untrusted
+
+"ah. So again, to summarize there, any data that AI has access to, the user can make it leak it. Any actions that it can possibly take, the user can make it take. So make sure to have those things locked down."
+
+
+
+
+## Executive summary
+
+- **Prompt injection is a primary security risk category** for LLM applications, with impacts including unauthorized access, command execution in connected systems, and manipulation of critical decisions. OWASP (LLM01:2025) treats prompt injection as the top item in its LLM Top 10 risk list.  
+  - OWASP LLM01:2025 Prompt Injection: https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+- **Indirect prompt injection is an attack vector** where adversarial instructions arrive via external content (web pages, emails, files) that is included in the model’s context.  
+  - OWASP definition (Indirect Prompt Injections): https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+  - Microsoft MSRC overview (July 29, 2025): https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+- **Agency materially increases impact.** OWASP (LLM06:2025) attributes damaging outcomes to *excessive functionality, permissions, and autonomy* and recommends minimizing extensions, minimizing permissions, requiring approval for high-impact actions, and enforcing complete mediation in downstream systems.  
+  - OWASP LLM06:2025 Excessive Agency: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+- **Data access control is a high-leverage mitigation** because widely demonstrated impacts of indirect prompt injection include exfiltration of user-accessible data and unintended actions using the user’s credentials.  
+  - Microsoft MSRC (impacts; data exfiltration; unintended actions): https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+  - OWASP LLM02:2025 Sensitive Information Disclosure (scope and mitigations such as strict access controls / least privilege): https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/  
+
+---
+
+## A concise narrative (facts, not vibes)
+
+
+### 2) Prompt injection is a structural weakness; indirect prompt injection is the enterprise delivery path
+OWASP defines direct and indirect prompt injection; indirect injection is specifically relevant when assistants summarize web pages, analyze emails, or process shared documents and tickets.  
+- OWASP LLM01:2025 Prompt Injection: https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+Microsoft’s MSRC describes indirect prompt injection as an adversarial technique that can lead to data exfiltration and unintended actions using the user’s credentials.  
+- Microsoft MSRC (July 29, 2025): https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+
+### 3) Enterprise posture is moving toward defense-in-depth with deterministic boundary controls
+Multiple primary sources publish layered mitigations: isolation/segregation of untrusted content, least-privilege tools and identities, human approval for high-impact actions, output validation, and monitoring/response.  
+- Microsoft MSRC (defense-in-depth; deterministic vs probabilistic controls): https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+- Google Chrome Security (agentic browsing architecture; layered mitigations; Dec 8, 2025): https://security.googleblog.com/2025/12/architecting-security-for-agentic.html  
+- “Deploying AI Systems Securely” (Joint Cybersecurity Information Sheet; Apr 15, 2024 PDF): https://media.defense.gov/2024/Apr/15/2003439257/-1/-1/0/CSI-DEPLOYING-AI-SYSTEMS-SECURELY.PDF  
+- CISA alert linking to the same guidance (Apr 15, 2024): https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely  
+
+---
+
+# The top 8 high-signal 2025 takeaways for CISOs
+
+## 1) Indirect prompt injection is the dominant attack vector for “AI that reads”
+Any workflow that asks an LLM to summarize or analyze untrusted content (web, email, docs, tickets) creates a practical injection path.  
+- OWASP definition (Indirect Prompt Injections): https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+- Microsoft MSRC (external sources incl. web/email/docs): https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+- Google Chrome Security (agentic browsing; indirect prompt injection defenses): https://security.googleblog.com/2025/12/architecting-security-for-agentic.html  
+
+## 2) “Confusable deputy” is a useful model for security decision-making
+The UK NCSC argues prompt injection should be treated less like classic code injection and more like exploitation of an “inherently confusable deputy,” pushing design toward impact reduction and boundary controls.  
+- NCSC blog (Dec 2025): https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection  
+
+## 3) Data exfiltration is a widely demonstrated impact; design for least privilege and explicit authorization
+Microsoft identifies exfiltration of sensitive data as a widely demonstrated impact and describes impact mitigation via data governance and consent workflows.  
+- Microsoft MSRC: https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+OWASP’s “Sensitive Information Disclosure” category includes confidential business data and credentials, and emphasizes strict access controls / least privilege as mitigations.  
+- OWASP LLM02:2025 Sensitive Information Disclosure: https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/  
+
+## 4) Tool access and autonomy convert “bad answers” into real incidents
+OWASP (LLM06:2025) describes how damaging actions can occur from unexpected or manipulated outputs, with root causes typically involving excessive functionality, permissions, or autonomy.  
+- OWASP LLM06:2025 Excessive Agency: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+
+## 5) “Complete mediation” is now explicitly recommended for agentic systems
+OWASP recommends implementing authorization in downstream systems rather than relying on the LLM to decide whether an action is allowed, and enforcing the complete mediation principle so all extension/tool requests are validated against security policies.  
+- OWASP LLM06 (Complete mediation): https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+
+## 6) Improper output handling recreates classic injection classes (XSS/SSRF/RCE) with the LLM as the payload generator
+OWASP defines improper output handling as insufficient validation/sanitization of LLM outputs before passing downstream, noting exploitation can lead to XSS/CSRF in browsers and SSRF/privilege escalation/RCE on backend systems.  
+- OWASP LLM05:2025 Improper Output Handling: https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/  
+
+## 7) Multi-agent collaboration introduces second-order escalation paths
+AppOmni’s analysis of ServiceNow Now Assist describes “agent-to-agent discovery” enabling second-order prompt injection where a less-privileged agent recruits higher-privileged agents to perform unintended actions; coverage by The Hacker News summarizes the impact and notes “expected behavior” under certain defaults.  
+- AppOmni AO Labs (Nov 19, 2025): https://appomni.com/ao-labs/ai-agent-to-agent-discovery-prompt-injection/  
+- The Hacker News coverage (Nov 2025): https://thehackernews.com/2025/11/servicenow-ai-agents-can-be-tricked.html  
+
+## 8) AI-orchestrated cyber operations are being documented, but claims should be read with the primary source in hand
+Anthropic reports disrupting what it describes as an AI-orchestrated espionage campaign using agentic capabilities (mid-Sep 2025 activity; published Nov 2025). There is also public reporting expressing skepticism about the novelty and broader implications, which is relevant for risk calibration.  
+- Anthropic report: https://www.anthropic.com/news/disrupting-AI-espionage  
+- Example skeptical coverage: https://www.pcgamer.com/software/ai/anthropic-reports-the-first-80-90-percent-ai-orchestrated-cyber-espionage-campaign-but-cybersecurity-critics-are-sceptical/  
+
+---
+
+# Practical controls (CISO checklist for 2026 planning)
+
+This section emphasizes controls that reduce blast radius even when injection attempts succeed.
+
+## A) Threat modeling and scoping
+
+1. **Enumerate untrusted inputs that can enter model context**
+   - web pages, emails, docs, tickets, chat logs, tool outputs  
+   - Relevant because indirect prompt injection is defined as injection via external sources processed by the model.  
+   - OWASP LLM01: https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+   - Microsoft MSRC: https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+
+2. **Define the authority model**
+   - which identities are used for retrieval; which for tool calls; where privilege escalation is possible  
+   - Joint guidance recommends threat modeling and mapping mitigations to the model.  
+   - CSI PDF: https://media.defense.gov/2024/Apr/15/2003439257/-1/-1/0/CSI-DEPLOYING-AI-SYSTEMS-SECURELY.PDF  
+
+## B) Authorization-first retrieval and data governance (read path)
+
+1. **Enforce least privilege access for retrieval**
+   - OWASP LLM01 recommends “enforce privilege control and least privilege access” as a mitigation.  
+   - OWASP LLM01: https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+   - OWASP LLM02 also emphasizes strict access controls / least privilege for sensitive info disclosure.  
+   - OWASP LLM02: https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/  
+
+2. **Treat retrieval as a privileged operation**
+   - Microsoft highlights exfiltration of sensitive user data as a widely demonstrated impact of indirect prompt injection.  
+   - Microsoft MSRC: https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks  
+
+**Polar Sky-adjacent (without vendor claims):** Controls that correctly enforce document-/record-level authorization and complete mediation reduce the blast radius of injection because they constrain what data can be retrieved and what actions are reachable through tools.
+
+## C) Limit agency and constrain tools (write path)
+
+1. **Minimize extensions and avoid open-ended tools**
+   - OWASP LLM06 mitigations emphasize minimizing extensions and avoiding open-ended extensions.  
+   - OWASP LLM06: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+
+2. **Minimize permissions used by tools**
+   - OWASP LLM06: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+
+3. **Require approval for high-impact actions**
+   - OWASP LLM01 (“require human approval for high-risk actions”): https://genai.owasp.org/llmrisk/llm01-prompt-injection/  
+   - OWASP LLM06 (“require user approval”): https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+   - Chrome’s design includes user confirmations for sensitive steps: https://security.googleblog.com/2025/12/architecting-security-for-agentic.html  
+
+4. **Enforce complete mediation**
+   - OWASP LLM06 explicitly recommends authorization in downstream systems and complete mediation.  
+   - OWASP LLM06: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/  
+
+## D) Treat model output as untrusted
+
+- Validate and sanitize outputs before passing to downstream interpreters (HTML/JS/SQL/shell/config) per OWASP’s Improper Output Handling category.  
+- OWASP LLM05: https://genai.owasp.org/llmrisk/llm052025-improper-output-handling/  
+
+## E) Monitoring, testing, and response
+
+- Log retrieval decisions, tool invocations, and attempted high-impact actions; prioritize detection and response loops for tool misuse and anomalous retrieval/export.  
+- Joint guidance discusses controls to protect/detect/respond for AI systems and related data/services.  
+- CISA alert + links: https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely  
+
+---
+
+## Appendix: podcast inputs (context, not primary evidence)
+
+- Lenny’s Newsletter episode (“The coming AI security crisis”): https://www.lennysnewsletter.com/p/the-coming-ai-security-crisis  
+- Normalization of deviance essay: https://embracethered.com/blog/posts/2025/the-normalization-of-deviance-in-ai/  
