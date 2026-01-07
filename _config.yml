@@ -1,4 +1,5 @@
 title: Polar Sky
+url: https://polarsky.ai
 permalink: /blog/:title/
 exclude:
   - blog
