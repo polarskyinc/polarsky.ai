@@ -9,13 +9,67 @@
 <body class="page">
   <main class="shell">
     <a class="brand" href="{{ \"/\" | relative_url }}">Polar Sky</a>
-    <article class="post">
-      <header>
-        <h1>{{ page.title }}</h1>
-        <p class="post-meta">{{ page.date | date: "%B %d, %Y" }}</p>
-      </header>
-      {{ content }}
-    </article>
+    {% assign word_count = content | number_of_words %}
+    {% assign reading_time = word_count | divided_by: 200 | ceil %}
+    <div class="post-layout">
+      <article class="post" id="post-content">
+        <header>
+          <h1>{{ page.title }}</h1>
+          <p class="post-meta">{{ page.date | date: "%B %d, %Y" }}</p>
+          <h2 class="post-reading-time">Estimated reading time: {{ reading_time }} min</h2>
+        </header>
+        {{ content }}
+      </article>
+      <aside class="post-toc" aria-label="Table of contents">
+        <p class="post-toc__title">On this page</p>
+        <ol class="post-toc__list"></ol>
+      </aside>
+    </div>
   </main>
+  <script>
+    (() => {
+      const toc = document.querySelector(".post-toc");
+      const tocList = document.querySelector(".post-toc__list");
+      const headings = document.querySelectorAll(".post h2");
+
+      if (!toc || !tocList || headings.length === 0) {
+        if (toc) {
+          toc.remove();
+        }
+        return;
+      }
+
+      const slugify = (text) =>
+        text
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/\s+/g, "-");
+
+      const used = new Map();
+
+      headings.forEach((heading) => {
+        if (heading.classList.contains("post-reading-time")) {
+          return;
+        }
+        if (!heading.id) {
+          const base = slugify(heading.textContent);
+          const count = used.get(base) || 0;
+          const id = count ? `${base}-${count}` : base;
+          used.set(base, count + 1);
+          heading.id = id;
+        }
+
+        const item = document.createElement("li");
+        item.className = "post-toc__item";
+
+        const link = document.createElement("a");
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+        item.appendChild(link);
+        tocList.appendChild(item);
+      });
+    })();
+  </script>
 </body>
 </html>
