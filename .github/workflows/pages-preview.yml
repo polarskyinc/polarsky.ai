@@ -27,7 +27,7 @@ jobs:
       - name: Build site
         env:
           JEKYLL_ENV: production
-        run: jekyll build --baseurl "/pr-${{ github.event.number }}"
+        run: jekyll build --baseurl "/pr-${{ github.event.number }}" --url "https://polarsky.ai"
 
       - name: Deploy preview
         uses: peaceiris/actions-gh-pages@v4
@@ -46,7 +46,7 @@ jobs:
             const prNumber = context.payload.pull_request.number;
             const repo = context.repo;
             const marker = '<!-- pr-preview-url -->';
-            const url = `https://${repo.owner}.github.io/${repo.repo}/pr-${prNumber}/`;
+            const url = `https://polarsky.ai/pr-${prNumber}/`;
             const body = `${marker}\nPreview: ${url}`;
 
             const { data: comments } = await github.rest.issues.listComments({
