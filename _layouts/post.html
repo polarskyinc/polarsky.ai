@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }} | Polar Sky</title>
   <link rel="stylesheet" href="{{ \"/assets/site.css\" | relative_url }}">
+  {% include gtm-head.html %}
 </head>
 <body class="page">
+  {% include gtm-body.html %}
   <main class="shell">
     <a class="brand" href="{{ \"/\" | relative_url }}">Polar Sky</a>
     <article class="post">
