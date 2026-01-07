@@ -1,6 +1,6 @@
 ---
 title: "LLM security in 2025: confusable deputies, indirect injection, and controls that reduce blast radius"
-date: 2025-01-01
+date: 2025-01-07
 layout: post
 ---
 In 2025, “LLM security” started to look less like a content moderation problem and more like systems security for a component that **reads untrusted text, reasons over it, and can take action**.
