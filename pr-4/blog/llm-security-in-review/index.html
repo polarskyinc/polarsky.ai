@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LLM security in 2025: confusable deputies, indirect injection, and controls that reduce blast radius | Polar Sky</title>
-  <link rel="stylesheet" href="">
+  <link rel="stylesheet" href="/pr-4/assets/site.css">
 </head>
 <body class="page">
   <main class="shell">
@@ -15,11 +15,8 @@
       <article class="post" id="post-content">
         <header>
           <h1>LLM security in 2025: confusable deputies, indirect injection, and controls that reduce blast radius</h1>
-          <p class="post-meta">
-            January 07, 2025
-            <span class="post-meta__divider">•</span>
-            7 min read
-          </p>
+          <p class="post-meta">January 07, 2025</p>
+          <h2 class="post-reading-time">Estimated reading time: 7 min</h2>
         </header>
         <p>In 2025, “LLM security” started to look less like a content moderation problem and more like systems security for a component that <strong>reads untrusted text, reasons over it, and can take action</strong>.</p>
 
@@ -168,7 +165,7 @@
     (() => {
       const toc = document.querySelector(".post-toc");
       const tocList = document.querySelector(".post-toc__list");
-      const headings = document.querySelectorAll(".post h2, .post h3");
+      const headings = document.querySelectorAll(".post h2, .post h3, .post h4");
 
       if (!toc || !tocList || headings.length === 0) {
         if (toc) {
@@ -187,6 +184,9 @@
       const used = new Map();
 
       headings.forEach((heading) => {
+        if (heading.classList.contains("post-reading-time")) {
+          return;
+        }
         if (!heading.id) {
           const base = slugify(heading.textContent);
           const count = used.get(base) || 0;
@@ -196,10 +196,13 @@
         }
 
         const item = document.createElement("li");
-        item.className =
-          heading.tagName === "H3"
-            ? "post-toc__item post-toc__item--child"
-            : "post-toc__item";
+        item.className = "post-toc__item";
+        if (heading.tagName === "H3") {
+          item.className += " post-toc__item--child";
+        }
+        if (heading.tagName === "H4") {
+          item.className += " post-toc__item--subchild";
+        }
 
         const link = document.createElement("a");
         link.href = `#${heading.id}`;

@@ -42,7 +42,7 @@ body.page {
 }
 
 body.page .shell {
-  max-width: 1120px;
+  max-width: 1200px;
 }
 
 .brand {
@@ -133,36 +133,55 @@ p {
 .post {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 }
 
 .post-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: minmax(0, 1fr) 260px;
   gap: 48px;
   align-items: start;
 }
 
 .post {
   width: 100%;
-  max-width: 780px;
 }
 
 .post h1 {
   margin-bottom: 12px;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 .post .post-meta {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   color: var(--text-muted);
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
-.post-meta__divider {
-  margin: 0 8px;
-  color: rgba(211, 222, 255, 0.5);
+.post header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(111, 247, 255, 0.18);
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-content > :first-child {
+  margin-top: 0;
+}
+
+.post-reading-time {
+  margin: 0 0 28px;
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .post-toc {
@@ -206,6 +225,11 @@ p {
   font-size: 0.9rem;
 }
 
+.post-toc__item--subchild {
+  padding-left: 26px;
+  font-size: 0.85rem;
+}
+
 .post h2,
 .post h3,
 .post h4 {
@@ -216,11 +240,11 @@ p {
 }
 
 .post h2 {
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-size: clamp(1.7rem, 2.6vw, 2.35rem);
 }
 
 .post h3 {
-  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  font-size: clamp(1.35rem, 2.1vw, 1.8rem);
 }
 
 .post p,
@@ -228,6 +252,11 @@ p {
   font-size: clamp(1rem, 1.4vw, 1.15rem);
   line-height: 1.7;
   color: var(--text-muted);
+}
+
+.post-content > p:first-of-type {
+  font-size: clamp(1.1rem, 1.7vw, 1.3rem);
+  color: rgba(228, 236, 255, 0.85);
 }
 
 .post ul,
