@@ -25,7 +25,7 @@ jobs:
       - name: Build site
         env:
           JEKYLL_ENV: production
-        run: jekyll build --url "https://polarsky.ai"
+        run: jekyll build
 
       - name: Deploy production
         uses: peaceiris/actions-gh-pages@v4
