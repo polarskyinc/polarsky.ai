@@ -6,7 +6,7 @@
               radial-gradient(circle at 20% 80%, rgba(94, 248, 255, 0.2), transparent 50%),
               linear-gradient(135deg, rgba(8, 16, 35, 0.9), rgba(5, 8, 20, 0.95));
   --text-primary: rgba(244, 247, 255, 0.96);
-  --text-muted: rgba(211, 222, 255, 0.7);
+  --text-muted: rgba(221, 232, 255, 0.82);
   --accent: #6ff7ff;
 }
 
@@ -174,9 +174,10 @@ p {
 }
 
 .post header {
-  padding-bottom: 24px;
+  padding-bottom: 32px;
   border-bottom: 1px solid rgba(111, 247, 255, 0.18);
 }
+
 
 .post-content {
   display: flex;
@@ -189,12 +190,7 @@ p {
 }
 
 .post-reading-time {
-  margin: 0 0 20px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
+  margin: 6px 0 20px;
 }
 
 .post-toc {
@@ -250,6 +246,10 @@ p {
   font-size: clamp(1.35rem, 2.1vw, 1.8rem);
 }
 
+.post h4 {
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+}
+
 .post p,
 .post li {
   font-size: clamp(1rem, 1.4vw, 1.15rem);
@@ -259,6 +259,10 @@ p {
 
 .post p {
   margin: 0 0 20px;
+}
+
+.post header + p {
+  margin-top: 20px;
 }
 
 .post ul,
@@ -279,7 +283,7 @@ p {
   border: none;
   height: 1px;
   background: rgba(111, 247, 255, 0.2);
-  margin: 32px 0;
+  margin: 16px 0;
 }
 
 .post a {
