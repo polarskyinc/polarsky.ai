@@ -38,7 +38,7 @@ Classical cybersecurity is built around deterministic systems: you can trace a f
 
 The “confusable deputy” framing is useful for security decision-making: treat this less like a classic injection bug you can patch away and more like exploitation of an inherently confusable system—pushing design toward impact reduction and boundary controls.
 
-## Build controls that reduce blast radius when injection succeeds
+## Deterministic Boundaries: Put Controls Outside the Model
 
 The most defensible 2025 posture was not “we prevented injection,” but “when injection happens, it can’t silently exfiltrate data or perform high-impact actions.” In practice, that means emphasizing deterministic boundary controls over probabilistic behavior (see Chrome’s published [agent security architecture](https://security.googleblog.com/2025/12/architecting-security-for-agentic.html)).
 
@@ -49,7 +49,7 @@ Practically, that means:
 - **Treat model output as untrusted.** Validate/sanitize before passing output into interpreters (HTML/JS/SQL/shell/config); prefer structured outputs and strict parsing.
 - **Instrument and respond like any other privileged system.** Log retrieval decisions and tool invocations; build detection and incident response around anomalous export/tool use.
 
-## Six 2025 takeaways for CISOs on LLM security
+## Six 2025 takeaways on LLM security
 
 #### 1) Deployment outpaced controls (design for failure, not perfection)
 As capabilities expanded, near-misses and “mostly works” behaviors became easier to normalize and harder to reason about.
@@ -69,15 +69,15 @@ This is the practical interpretation of “assume injection succeeds”: permiss
 #### 6) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources
 There is credible reporting of agentic usage in cyber operations; CISOs should read primary sources and update assumptions incrementally (e.g., [disrupting AI-espionage](https://www.anthropic.com/news/disrupting-AI-espionage)).
 
-## What changed for controls in 2025
+## 2025: Control Priorities for Agentic Systems
 
-Most “best practice” controls for access control, least privilege, and logging were not invented in 2025. What changed in 2025 is that major examples and guidance started converging on a smaller set of priorities for agentic systems:
+Most “best practice” controls for access control, least privilege, and logging were not invented in 2025. What changed in 2025 is that major examples and guidance started converging on a clear set of priorities for agentic systems:
 
 - **Treat untrusted content as hostile by default.** The [Comet prompt injection issue](https://brave.com/blog/comet-prompt-injection/) is a concrete reminder that content can be interpreted as instructions and drive unintended behavior or disclosure.
 - **Treat LLM outputs as untrusted by default.** Don’t execute or forward raw generations into interpreters (HTML/JS/SQL/shell) without strict validation/sanitization; prefer structured outputs and “policy checks outside the model.”
 - **Make the security boundary deterministic.** Isolate untrusted content, gate high-impact actions, and enforce authorization downstream rather than relying on “the model will comply.”
 
-## Closing: the posture that held up in 2025
+## Conclusion: Assume Injection, Reduce Blast Radius
 
 The core lesson from 2025 was a shift from “prevent prompt injection” to “assume injection succeeds sometimes, and make failures non-catastrophic through boundaries, authorization, and isolation.”
 
