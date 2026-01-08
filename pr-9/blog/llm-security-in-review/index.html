@@ -71,7 +71,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <p>The “confusable deputy” framing is useful for security decision-making: treat this less like a classic injection bug you can patch away and more like exploitation of an inherently confusable system—pushing design toward impact reduction and boundary controls.</p>
 
-<h2 id="build-controls-that-reduce-blast-radius-when-injection-succeeds">Build controls that reduce blast radius when injection succeeds</h2>
+<h2 id="deterministic-boundaries-put-controls-outside-the-model">Deterministic Boundaries: Put Controls Outside the Model</h2>
 
 <p>The most defensible 2025 posture was not “we prevented injection,” but “when injection happens, it can’t silently exfiltrate data or perform high-impact actions.” In practice, that means emphasizing deterministic boundary controls over probabilistic behavior (see Chrome’s published <a href="https://security.googleblog.com/2025/12/architecting-security-for-agentic.html">agent security architecture</a>).</p>
 
@@ -84,7 +84,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li><strong>Instrument and respond like any other privileged system.</strong> Log retrieval decisions and tool invocations; build detection and incident response around anomalous export/tool use.</li>
 </ul>
 
-<h2 id="six-2025-takeaways-for-cisos-on-llm-security">Six 2025 takeaways for CISOs on LLM security</h2>
+<h2 id="six-2025-takeaways-on-llm-security">Six 2025 takeaways on LLM security</h2>
 
 <h4 id="1-deployment-outpaced-controls-design-for-failure-not-perfection">1) Deployment outpaced controls (design for failure, not perfection)</h4>
 <p>As capabilities expanded, near-misses and “mostly works” behaviors became easier to normalize and harder to reason about.</p>
@@ -104,9 +104,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h4 id="6-ai-orchestrated-ops-signals-emerged-but-risk-should-be-calibrated-from-primary-sources">6) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources</h4>
 <p>There is credible reporting of agentic usage in cyber operations; CISOs should read primary sources and update assumptions incrementally (e.g., <a href="https://www.anthropic.com/news/disrupting-AI-espionage">disrupting AI-espionage</a>).</p>
 
-<h2 id="what-changed-for-controls-in-2025">What changed for controls in 2025</h2>
+<h2 id="2025-control-priorities-for-agentic-systems">2025: Control Priorities for Agentic Systems</h2>
 
-<p>Most “best practice” controls for access control, least privilege, and logging were not invented in 2025. What changed in 2025 is that major examples and guidance started converging on a smaller set of priorities for agentic systems:</p>
+<p>Most “best practice” controls for access control, least privilege, and logging were not invented in 2025. What changed in 2025 is that major examples and guidance started converging on a clear set of priorities for agentic systems:</p>
 
 <ul>
   <li><strong>Treat untrusted content as hostile by default.</strong> The <a href="https://brave.com/blog/comet-prompt-injection/">Comet prompt injection issue</a> is a concrete reminder that content can be interpreted as instructions and drive unintended behavior or disclosure.</li>
@@ -114,7 +114,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li><strong>Make the security boundary deterministic.</strong> Isolate untrusted content, gate high-impact actions, and enforce authorization downstream rather than relying on “the model will comply.”</li>
 </ul>
 
-<h2 id="closing-the-posture-that-held-up-in-2025">Closing: the posture that held up in 2025</h2>
+<h2 id="conclusion-assume-injection-reduce-blast-radius">Conclusion: Assume Injection, Reduce Blast Radius</h2>
 
 <p>The core lesson from 2025 was a shift from “prevent prompt injection” to “assume injection succeeds sometimes, and make failures non-catastrophic through boundaries, authorization, and isolation.”</p>
 
