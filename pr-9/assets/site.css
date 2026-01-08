@@ -178,9 +178,6 @@ p {
   border-bottom: 1px solid rgba(111, 247, 255, 0.18);
 }
 
-.post header + * {
-  margin-top: 20px;
-}
 
 .post-content {
   display: flex;
@@ -258,6 +255,10 @@ p {
 
 .post p {
   margin: 0 0 20px;
+}
+
+.post header + p {
+  margin-top: 20px;
 }
 
 .post ul,
