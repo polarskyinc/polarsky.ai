@@ -10,9 +10,9 @@ So, looking back on 2025: what did we learn about LLM security?
 
 ## Takeaways
 
-1) **Deployment is outpacing mature security controls.** As assistants gain access to more data and more actions, “mostly works” becomes a risky default.
-2) **Prompt injection is better thought of as a [confusable deputy](https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection) problem.** Models can’t reliably separate instructions from data, so prevention-by-filtering is inherently incomplete.
-3) **Use deterministic boundaries.** Treat untrusted inputs and untrusted outputs as hostile by default; enforce isolation, authorization checks, and gated actions outside the model.
+1. **Deployment is outpacing mature security controls.** As assistants gain access to more data and more actions, “mostly works” becomes a risky default.
+2. **Prompt injection is better thought of as a [confusable deputy](https://www.ncsc.gov.uk/blog-post/prompt-injection-is-not-sql-injection) problem.** Models can’t reliably separate instructions from data, so prevention-by-filtering is inherently incomplete.
+3. **Use deterministic boundaries.** Treat untrusted inputs and untrusted outputs as hostile by default; enforce isolation, authorization checks, and gated actions outside the model.
 
 ## Big problem: AI security is normalizing before controls are mature
 
