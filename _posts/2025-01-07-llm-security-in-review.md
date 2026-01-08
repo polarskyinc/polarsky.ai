@@ -1,6 +1,6 @@
 ---
 title: "LLM security in 2025: the confusable deputy problem and deterministic boundaries"
-date: 2025-01-07
+date: 2026-01-07
 layout: post
 ---
 
