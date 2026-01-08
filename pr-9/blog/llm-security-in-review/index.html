@@ -86,22 +86,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 id="six-2025-takeaways-for-cisos-on-llm-security">Six 2025 takeaways for CISOs on LLM security</h2>
 
-<h3 id="1-deployment-outpaced-controls-design-for-failure-not-perfection">1) Deployment outpaced controls (design for failure, not perfection)</h3>
+<h4 id="1-deployment-outpaced-controls-design-for-failure-not-perfection">1) Deployment outpaced controls (design for failure, not perfection)</h4>
 <p>As capabilities expanded, near-misses and “mostly works” behaviors became easier to normalize and harder to reason about.</p>
 
-<h3 id="2-prompt-injection-is-a-confusable-deputy-problem-not-a-bug-class-you-can-patch-away">2) Prompt injection is a confusable deputy problem, not a bug class you can patch away</h3>
+<h4 id="2-prompt-injection-is-a-confusable-deputy-problem-not-a-bug-class-you-can-patch-away">2) Prompt injection is a confusable deputy problem, not a bug class you can patch away</h4>
 <p>The model can’t reliably separate instructions from data, which pushes designs toward impact reduction and boundary controls.</p>
 
-<h3 id="3-indirect-injection-is-the-enterprise-delivery-path-for-ai-that-reads">3) Indirect injection is the enterprise delivery path for “AI that reads”</h3>
+<h4 id="3-indirect-injection-is-the-enterprise-delivery-path-for-ai-that-reads">3) Indirect injection is the enterprise delivery path for “AI that reads”</h4>
 <p>If a workflow asks an LLM to summarize or analyze untrusted content (web/email/docs/tickets), you have a practical injection path. For a concrete catalog of delivery paths and mitigations, see <a href="https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks">indirect prompt injection defenses</a>.</p>
 
-<h3 id="4-deterministic-boundary-controls-became-the-default-direction-of-travel">4) Deterministic boundary controls became the default direction of travel</h3>
+<h4 id="4-deterministic-boundary-controls-became-the-default-direction-of-travel">4) Deterministic boundary controls became the default direction of travel</h4>
 <p>Published architectures emphasize isolating untrusted content, gating high-impact actions, and enforcing downstream authorization checks.</p>
 
-<h3 id="5-authorization-and-least-privilege-became-the-core-blast-radius-control-for-retrieval-and-tools">5) Authorization and least privilege became the core blast-radius control for retrieval and tools</h3>
+<h4 id="5-authorization-and-least-privilege-became-the-core-blast-radius-control-for-retrieval-and-tools">5) Authorization and least privilege became the core blast-radius control for retrieval and tools</h4>
 <p>This is the practical interpretation of “assume injection succeeds”: permissioning and complete mediation in downstream systems determine whether a manipulation becomes a minor policy violation or a material breach.</p>
 
-<h3 id="6-ai-orchestrated-ops-signals-emerged-but-risk-should-be-calibrated-from-primary-sources">6) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources</h3>
+<h4 id="6-ai-orchestrated-ops-signals-emerged-but-risk-should-be-calibrated-from-primary-sources">6) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources</h4>
 <p>There is credible reporting of agentic usage in cyber operations; CISOs should read primary sources and update assumptions incrementally (e.g., <a href="https://www.anthropic.com/news/disrupting-AI-espionage">disrupting AI-espionage</a>).</p>
 
 <h2 id="what-changed-for-controls-in-2025">What changed for controls in 2025</h2>
