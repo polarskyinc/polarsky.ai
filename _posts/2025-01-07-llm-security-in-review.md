@@ -51,22 +51,22 @@ Practically, that means:
 
 ## Six 2025 takeaways for CISOs on LLM security
 
-### 1) Deployment outpaced controls (design for failure, not perfection)
+#### 1) Deployment outpaced controls (design for failure, not perfection)
 As capabilities expanded, near-misses and “mostly works” behaviors became easier to normalize and harder to reason about.
 
-### 2) Prompt injection is a confusable deputy problem, not a bug class you can patch away
+#### 2) Prompt injection is a confusable deputy problem, not a bug class you can patch away
 The model can’t reliably separate instructions from data, which pushes designs toward impact reduction and boundary controls.
 
-### 3) Indirect injection is the enterprise delivery path for “AI that reads”
+#### 3) Indirect injection is the enterprise delivery path for “AI that reads”
 If a workflow asks an LLM to summarize or analyze untrusted content (web/email/docs/tickets), you have a practical injection path. For a concrete catalog of delivery paths and mitigations, see [indirect prompt injection defenses](https://www.microsoft.com/en-us/msrc/blog/2025/07/how-microsoft-defends-against-indirect-prompt-injection-attacks).
 
-### 4) Deterministic boundary controls became the default direction of travel
+#### 4) Deterministic boundary controls became the default direction of travel
 Published architectures emphasize isolating untrusted content, gating high-impact actions, and enforcing downstream authorization checks.
 
-### 5) Authorization and least privilege became the core blast-radius control for retrieval and tools
+#### 5) Authorization and least privilege became the core blast-radius control for retrieval and tools
 This is the practical interpretation of “assume injection succeeds”: permissioning and complete mediation in downstream systems determine whether a manipulation becomes a minor policy violation or a material breach.
 
-### 6) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources
+#### 6) “AI-orchestrated ops” signals emerged, but risk should be calibrated from primary sources
 There is credible reporting of agentic usage in cyber operations; CISOs should read primary sources and update assumptions incrementally (e.g., [disrupting AI-espionage](https://www.anthropic.com/news/disrupting-AI-espionage)).
 
 ## What changed for controls in 2025
