@@ -6,7 +6,7 @@
               radial-gradient(circle at 20% 80%, rgba(94, 248, 255, 0.2), transparent 50%),
               linear-gradient(135deg, rgba(8, 16, 35, 0.9), rgba(5, 8, 20, 0.95));
   --text-primary: rgba(244, 247, 255, 0.96);
-  --text-muted: rgba(211, 222, 255, 0.7);
+  --text-muted: rgba(221, 232, 255, 0.82);
   --accent: #6ff7ff;
 }
 
