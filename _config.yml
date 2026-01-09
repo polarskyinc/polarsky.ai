@@ -2,4 +2,15 @@ title: Polar Sky
 url: https://polarsky.ai
 permalink: /blog/:title/
 exclude:
-  - blog
+  - .context
+  - .github
+  - .gitignore
+  - AGENTS.md
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - Dockerfile
+  - docker-compose.yml
+  - bin
+  - vendor
+  - node_modules

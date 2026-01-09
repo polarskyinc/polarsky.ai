@@ -1,0 +1,14 @@
+services:
+  site:
+    build: .
+    ports:
+      - "${JEKYLL_PORT:-4000}:4000"
+      - "${JEKYLL_LIVERELOAD_PORT:-35729}:35729"
+    environment:
+      JEKYLL_ENV: development
+    volumes:
+      - .:/srv/jekyll
+      - bundle:/usr/local/bundle
+
+volumes:
+  bundle:

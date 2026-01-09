@@ -1,0 +1,32 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog | Polar Sky</title>
+  <link rel="stylesheet" href="{{ "/assets/site.css" | relative_url }}">
+  {% include gtm-head.html %}
+</head>
+<body class="page">
+  {% include gtm-body.html %}
+  <main class="shell">
+    <a class="brand" href="{{ "/" | relative_url }}">Polar Sky</a>
+    <header class="blog-hero">
+      <h1>Blog</h1>
+      <p>Notes on secure, trustworthy AI for the enterprise.</p>
+    </header>
+    <section class="blog-list" aria-label="Blog posts">
+      {% for post in site.posts %}
+        <article class="blog-card">
+          <p class="blog-date">{{ post.date | date: "%B %d, %Y" }}</p>
+          <h2>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h2>
+        </article>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+</html>
